@@ -1,10 +1,7 @@
 package com.lambao
 
 import com.lambao.data.DatabaseFactory
-import com.lambao.data.repository.user.UserRepository
-import com.lambao.data.repository.user.UserRepositoryImpl
-import com.lambao.domain.service.user.UserService
-import com.lambao.domain.service.user.UserServiceImpl
+import com.lambao.plugins.configureKoin
 import com.lambao.routes.configureAuth
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
@@ -24,7 +21,6 @@ fun Application.module() {
         jackson()
     }
 
-    val repository: UserRepository = UserRepositoryImpl()
-    val service: UserService = UserServiceImpl(repository)
-    configureAuth(service)
+    configureKoin()
+    configureAuth()
 }

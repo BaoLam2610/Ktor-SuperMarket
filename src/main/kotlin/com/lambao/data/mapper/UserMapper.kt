@@ -1,14 +1,15 @@
 package com.lambao.data.mapper
 
+import com.lambao.data.dto.LoginUserBody
+import com.lambao.data.dto.RegisterUserBody
 import com.lambao.data.dto.UserDto
+import com.lambao.data.entity.user.UserEntity
 import com.lambao.data.entity.user.UserTable
-import com.lambao.domain.model.User
 import org.jetbrains.exposed.sql.ResultRow
 
 
-fun ResultRow?.rowToUser(): User? {
-    return if (this == null) null
-    else User(
+fun ResultRow.rowToUser(): UserEntity {
+    return UserEntity(
         id = this[UserTable.id],
         name = this[UserTable.name],
         phoneNumber = this[UserTable.phoneNumber],
@@ -18,8 +19,29 @@ fun ResultRow?.rowToUser(): User? {
     )
 }
 
-fun UserDto.toUser() = User(
-    id = null,
+fun UserDto.toUser() = UserEntity(
+    id = 0,
+    name = name,
+    phoneNumber = phoneNumber,
+    email = email,
+    password = password,
+    avatar = avatar
+)
+
+fun UserEntity.toUserDto() = UserDto(
+    name ?: "",
+    phoneNumber ?: "",
+    email ?: "",
+    password ?: "",
+    avatar ?: ""
+)
+
+fun LoginUserBody.toUserEntity() = UserEntity(
+    phoneNumber = phone,
+    password = password
+)
+
+fun RegisterUserBody.toUserEntity() = UserEntity(
     name = name,
     phoneNumber = phoneNumber,
     email = email,
